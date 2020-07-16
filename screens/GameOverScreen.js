@@ -1,44 +1,76 @@
-import React from 'react';
-import { View, StyleSheet, Button, Image } from 'react-native';
-import BodyText from '../components/BodyText';
-import TitleText from '../components/TitleText';
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  Dimensions,
+  ScrollView,
+} from "react-native";
+import BodyText from "../components/BodyText";
+import TitleText from "../components/TitleText";
+import color from "../constants/color";
+import MainButton from "../components/MainButton";
 
 const GameOverScreen = (props) => {
   return (
-    <View style={styles.screen}>
-      <TitleText>The Game is Over!</TitleText>
-      <View style={styles.imageContainer}>
-        <Image 
-        style={styles.image} 
-        source={require('../assets/icon.png')}
-        resizeMode='cover' />
+    <ScrollView>
+      <View style={styles.screen}>
+        <TitleText>The Game is Over!</TitleText>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            //source={{uri: 'https://images.app.goo.gl/15ZuJkPxXVaYn5wb9'}}
+            source={require("../assets/original.png")}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.resultContainer}>
+          <BodyText style={styles.resultText}>
+            Your phone needed{" "}
+            <Text style={styles.highlight}>{props.roundsNumber}</Text> rounds to
+            guess the number{" "}
+            <Text style={styles.highlight}>{props.userNumber}</Text>
+          </BodyText>
+        </View>
+        <MainButton onPress={props.onRestart}>NEW GAME</MainButton>
       </View>
-      <BodyText>Number of rounds : {props.roundsNumber}</BodyText>
-      <BodyText>Number was : {props.userNumber}</BodyText>
-      <Button title='NEW GAME' onPress={props.onRestart} />
-    </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10
   },
   imageContainer: {
-    borderRadius: 150,
+    width: Dimensions.get("window").width * 0.7,
+    height: Dimensions.get("window").width * 0.7,
+    borderRadius: (Dimensions.get("window").width * 0.7) / 2,
     borderWidth: 3,
-    borderColor: 'black',
-    width: 300,
-    height: 300,
-    overflow: 'hidden',
-    marginVertical: 30
+    borderColor: "black",
+    overflow: "hidden",
+    marginVertical: Dimensions.get("window").height / 30,
   },
   image: {
-    width: '100%',
-    height: '100%'
-  }
+    width: "100%",
+    height: "100%",
+  },
+  resultContainer: {
+    marginHorizontal: 30,
+    marginVertical: Dimensions.get("window").height / 60,
+  },
+  resultText: {
+    textAlign: "center",
+    fontSize: Dimensions.get("window").height < 400 ? 16 : 20,
+  },
+  highlight: {
+    color: color.primary,
+    fontFamily: "open-sans-bold",
+  },
 });
 
 export default GameOverScreen;
